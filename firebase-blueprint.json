@@ -1,0 +1,87 @@
+{
+  "entities": {
+    "PhishingIncident": {
+      "title": "Phishing Incident",
+      "description": "Captures individual occurrences of suspected or confirmed phishing attacks.",
+      "type": "object",
+      "properties": {
+        "incidentTitle": { "type": "string", "description": "Concise name describing the incident." },
+        "detectionConfidenceScore": { "type": "number", "description": "AI model confidence score (0-1)." },
+        "incidentSeverity": { "type": "string", "enum": ["Low", "Medium", "High", "Critical"] },
+        "phishingType": { "type": "string", "description": "Category of phishing method (e.g., Email, SMS, Website)." },
+        "aiRiskScore": { "type": "number", "description": "Quantitative risk rating computed by AI." },
+        "analysisTimestamp": { "type": "string", "format": "date-time" },
+        "detectionMethod": { "type": "string", "description": "AI model or algorithm used." },
+        "impactAssessment": { "type": "string", "description": "Summary of potential disruptions." },
+        "incidentSource": { "type": "string", "description": "Originating system or channel." },
+        "messageContent": { "type": "string", "description": "Text content analyzed." },
+        "remediationStatus": { "type": "string", "enum": ["Open", "In Progress", "Resolved", "Closed"] },
+        "reportedBy": { "type": "string", "description": "UID of the user who reported it." },
+        "suspiciousUrl": { "type": "string", "format": "uri" },
+        "status": { "type": "string", "enum": ["Open", "In Progress", "Resolved", "Closed"] }
+      },
+      "required": ["incidentTitle", "incidentSeverity", "status"]
+    },
+    "ThreatFeed": {
+      "title": "Threat Intelligence Feed",
+      "description": "Records of threat data sources containing indicators of compromise.",
+      "type": "object",
+      "properties": {
+        "feedName": { "type": "string" },
+        "feedSource": { "type": "string" },
+        "feedType": { "type": "string" },
+        "active": { "type": "boolean" },
+        "confidenceLevel": { "type": "number" },
+        "dateLastUpdated": { "type": "string", "format": "date-time" },
+        "maliciousIpsCount": { "type": "integer" }
+      },
+      "required": ["feedName", "active"]
+    },
+    "DetectionModel": {
+      "title": "Detection Model",
+      "description": "Metadata about deployed AI models.",
+      "type": "object",
+      "properties": {
+        "modelName": { "type": "string" },
+        "algorithmType": { "type": "string" },
+        "version": { "type": "string" },
+        "accuracy": { "type": "number" },
+        "f1Score": { "type": "number" },
+        "activeStatus": { "type": "boolean" },
+        "lastTrained": { "type": "string", "format": "date-time" }
+      },
+      "required": ["modelName", "version", "activeStatus"]
+    },
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "System user details, permissions, and history.",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["IT Manager", "Security Analyst", "Data Scientist", "System Administrator", "Network Engineer", "Compliance Officer"] },
+        "department": { "type": "string" },
+        "lastLogin": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "email", "role"]
+    }
+  },
+  "firestore": {
+    "/incidents/{incidentId}": {
+      "schema": "PhishingIncident",
+      "description": "Collection of phishing incidents."
+    },
+    "/threatFeeds/{feedId}": {
+      "schema": "ThreatFeed",
+      "description": "Collection of threat intelligence feeds."
+    },
+    "/models/{modelId}": {
+      "schema": "DetectionModel",
+      "description": "Collection of AI detection models."
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of user profiles."
+    }
+  }
+}

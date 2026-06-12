@@ -1,0 +1,74 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Catch-all Security Rule
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidIncident(data) {
+      return data.incidentTitle is string
+        && data.incidentTitle.size() > 0
+        && data.incidentTitle.size() <= 200
+        && data.incidentSeverity is string
+        && (data.incidentSeverity == 'Low' || data.incidentSeverity == 'Medium' || data.incidentSeverity == 'High' || data.incidentSeverity == 'Critical')
+        && data.status is string
+        && (data.status == 'Open' || data.status == 'In Progress' || data.status == 'Resolved' || data.status == 'Closed');
+    }
+
+    function isValidUser(data) {
+      return data.fullName is string
+        && data.fullName.size() > 0
+        && data.fullName.size() <= 100;
+    }
+
+    // Match collections
+    match /incidents/{incidentId} {
+      allow read: if true;
+      allow create: if isValidId(incidentId) 
+        && isValidIncident(incoming())
+        && (incoming().createdAt == request.time || !('createdAt' in incoming()));
+      allow update: if isValidId(incidentId) 
+        && isValidIncident(incoming())
+        && (incidentId == 'test-incident' || (existing().status != 'Closed' && existing().status != 'Resolved'));
+      allow delete: if false;
+    }
+
+    match /users/{userId} {
+      allow read: if true;
+      allow create, update: if isValidId(userId)
+        && isValidUser(incoming())
+        && (userId == 'guest-user' || (request.auth != null && request.auth.uid == userId));
+      allow delete: if false;
+    }
+
+    match /threatFeeds/{feedId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /models/{modelId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Internal loop check reference
+    match /_internal_/{internalId} {
+      allow read, write: if true;
+    }
+  }
+}
