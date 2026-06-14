@@ -19,7 +19,7 @@ Built using **React**, **TypeScript**, **Firebase**, and **Google Gemini AI**, t
 - 🎨 Modern and responsive user interface built with React and Tailwind CSS
 - 🔒 Secure architecture with Firestore security rules and role-based access support
 
----
+  
 
 ## 🛠️ Technology Stack
 
