@@ -38,7 +38,7 @@ The objective of this project is to enhance cybersecurity by combining **Generat
 
 By analyzing **URLs**, **email content**, and **images**, the system provides actionable insights, automated risk assessment, and streamlined incident management to help users respond to phishing threats more effectively.
 
----
+
 
 ## 💼 Skills Demonstrated
 
