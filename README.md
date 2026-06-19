@@ -4,7 +4,6 @@ An intelligent cybersecurity platform that leverages **Generative AI** and **mul
 
 Built using **React**, **TypeScript**, **Firebase**, and **Google Gemini AI**, the platform enables organizations and security teams to identify, assess, and manage phishing threats through an intuitive, AI-driven interface.
 
----
 
 ## 🌟 Key Features
 
