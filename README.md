@@ -54,6 +54,7 @@ By analyzing **URLs**, **email content**, and **images**, the system provides ac
 - Secure Web Application Development
 - Data Visualization & Dashboard Design
 
+
 ### Run and deploy 
 
 This contains everything you need to run your app locally.
